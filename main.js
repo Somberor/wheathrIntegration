@@ -8,13 +8,26 @@ async function main() {
     let data = await getWeather(); // default request for testing.
     console.log(data);
 
-    let texasData = await getWeather(31.9686, 99.9018, 7); // get texas wheater for 7 days
+    let texasData = await getWeather(31.9686, 99.9018, 30); // get texas wheater for 7 days
     console.log(texasData);
 
     //
-
+    let lowestTempDate = getLowestTemp(texasData);
+    console.log(lowestTempDate);
 }
 
+
+function getLowestTemp(data) {
+    let lowest = data[0].temp;
+    let lowestDate = data[0].date;
+    for (let i = 0; i < data.length; i++) {
+        if (data[i].temp < lowest) {
+            lowest = data[i].temp;
+            lowestDate = data[i].date;
+        }
+    }
+    return { lowest, lowestDate };
+}
 
 // default lat and lon for London.
 async function getWeather(lat = 51.5074, lon = 0.1278, days = 5) {
